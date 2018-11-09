@@ -44,11 +44,56 @@ const studentUpdate = async (req, res) => {
 const studentCreate = async (req, res) => {
   // INSERT INTO customers (name, address) VALUES ('Company Inc', 'Highway 37')
   const { params } = req.body;
-  const joParams = JSON.parse(`{${params.replace(/=/g, ':')}}`)
+  // const joParams = JSON.parse(`{${params.replace(/=/g, ':')}}`)
+  const joParams = JSON.parse(params);
   const s = `INSERT INTO student (${Object.keys(joParams).join(', ')}) VALUES (${Object.values(joParams).join(', ')})`;
   try {
     const docs = await queryDB(s);
     res.json(s);
+  } catch (err) {
+    res.json(err);
+  }
+};
+
+// select s.Student_Id,s.Student_First_Name,s.Student_Middle_Name,s.Student_Last_name,Student_Cur_Sem from student as s where s.Student_Id in (select Distinct Student_Sem_Course_Reg_Student_Id from student_sem_course_reg where Student_Sem_Course_Reg_Reg_Status=0)
+const StudentFromCourse = async (req, res) => {
+  const s = `select s.Student_Id,s.Student_First_Name,s.Student_Middle_Name,s.Student_Last_name,Student_Cur_Sem from student as s where s.Student_Id in (select Distinct Student_Sem_Course_Reg_Student_Id from student_sem_course_reg where Student_Sem_Course_Reg_Reg_Status=0)`;
+  try {
+    const docs = await queryDB(s);
+    res.json(docs);
+  } catch (err) {
+    res.json(err);
+  }
+};
+
+const StudentFromAcademicCourseId = async (req, res) => {
+  const { CID } = req.body;
+  const s = `select a.Academic_Prog_Batch_Sem_Course_Credits,ac.Academic_Course_Name from academic_prog_batch_sem_course as a inner join academic_course as ac on a.Academic_Prog_Batch_Sem_Course=ac.Academic_Course_Id where Academic_Course_Id=${CID});`
+  try {
+    const docs = await queryDB(s);
+    res.json(docs);
+  } catch (err) {
+    res.json(err);
+  }
+};
+
+const setStudentRegStatus = async (req, res) => {
+  const { student_id } = req.body;
+  const s = `update student_sem_course_reg set Student_Sem_Course_Reg_Reg_Status=1 where Student_Sem_Course_Reg_Student_Id=${student_id};`;
+  try {
+    const docs = await queryDB(s);
+    res.json(docs);
+  } catch (err) {
+    res.json(err);
+  }
+};
+
+const setStudentCourseSuggest = async (req, res) => {
+  const { student, suggest } = req.body;
+  const s = `update student_sem_course_reg set Student_Sem_Course_Reg_Reg_Status=2,Student_Sem_Course_Reg_Student_Suggestion='${suggest}' where Student_Sem_Course_Reg_Student_Id='${student_id}';`;
+  try {
+    const docs = await queryDB(s);
+    res.json(docs);
   } catch (err) {
     res.json(err);
   }
@@ -81,4 +126,13 @@ const semCourseReg = async (req, res) => {
   }
 };
 
-export { studentIndex, studentUpdate, studentCreate, educationHistory, parent, semCourseReg };
+export { studentIndex,
+  studentUpdate,
+  studentCreate,
+  educationHistory,
+  parent,
+  semCourseReg,
+  StudentFromAcademicCourseId,
+  setStudentRegStatus,
+  setStudentCourseSuggest
+ };

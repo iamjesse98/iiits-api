@@ -38,21 +38,19 @@ var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var db_1 = require("../database/db");
 var studentIndex = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var _a, query, params, s, s1, docs, err_1;
+    var _a, query, params, s, docs, err_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _a = req.body, query = _a.query, params = _a.params;
                 s = "SELECT " + params + " FROM student WHERE " + query;
-                s1 = "SELECT Student_First_Name, Student_Middle_Name, Student_Last_name FROM student WHERE Student_Id=20160010007";
-                console.log(s, s === s1);
                 _b.label = 1;
             case 1:
                 _b.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, query(s)];
+                return [4 /*yield*/, db_1.query(s)];
             case 2:
                 docs = _b.sent();
-                console.log(docs);
+                // console.log(docs);
                 res.json({ s: s });
                 return [3 /*break*/, 4];
             case 3:
@@ -64,10 +62,57 @@ var studentIndex = function (req, res) { return __awaiter(_this, void 0, void 0,
     });
 }); };
 exports.studentIndex = studentIndex;
-// const studentUpdate = async (req, res) => {
-// };
+var studentUpdate = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+    var _a, query, params, s, docs, err_2;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _a = req.body, query = _a.query, params = _a.params;
+                s = "UPDATE student SET " + params + " WHERE " + query;
+                _b.label = 1;
+            case 1:
+                _b.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, db_1.query(s)];
+            case 2:
+                docs = _b.sent();
+                res.json(s);
+                return [3 /*break*/, 4];
+            case 3:
+                err_2 = _b.sent();
+                res.json(err_2);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+exports.studentUpdate = studentUpdate;
+var studentCreate = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+    var params, joParams, s, docs, err_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                params = req.body.params;
+                joParams = JSON.parse("{" + params.replace(/=/g, ':') + "}");
+                s = "INSERT INTO student (" + Object.keys(joParams).join(', ') + ") VALUES (" + Object.values(joParams).join(', ') + ")";
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, db_1.query(s)];
+            case 2:
+                docs = _a.sent();
+                res.json(s);
+                return [3 /*break*/, 4];
+            case 3:
+                err_3 = _a.sent();
+                res.json(err_3);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+exports.studentCreate = studentCreate;
 var educationHistory = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var docs, err_2;
+    var docs, err_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -78,8 +123,8 @@ var educationHistory = function (req, res) { return __awaiter(_this, void 0, voi
                 res.json({ data: docs });
                 return [3 /*break*/, 3];
             case 2:
-                err_2 = _a.sent();
-                res.json(err_2);
+                err_4 = _a.sent();
+                res.json(err_4);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -87,7 +132,7 @@ var educationHistory = function (req, res) { return __awaiter(_this, void 0, voi
 }); };
 exports.educationHistory = educationHistory;
 var parent = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var docs, err_3;
+    var docs, err_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -98,8 +143,8 @@ var parent = function (req, res) { return __awaiter(_this, void 0, void 0, funct
                 res.json(docs);
                 return [3 /*break*/, 3];
             case 2:
-                err_3 = _a.sent();
-                res.json(err_3);
+                err_5 = _a.sent();
+                res.json(err_5);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -107,7 +152,7 @@ var parent = function (req, res) { return __awaiter(_this, void 0, void 0, funct
 }); };
 exports.parent = parent;
 var semCourseReg = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var docs, err_4;
+    var docs, err_6;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -118,8 +163,8 @@ var semCourseReg = function (req, res) { return __awaiter(_this, void 0, void 0,
                 res.json(docs);
                 return [3 /*break*/, 3];
             case 2:
-                err_4 = _a.sent();
-                res.json(err_4);
+                err_6 = _a.sent();
+                res.json(err_6);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
