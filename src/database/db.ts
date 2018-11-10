@@ -26,10 +26,7 @@ const query = (query) => {
         // connectionLimit: 10
     });
     return new Promise((resolve, reject) => {
-        con1.connect(err => {
-            if (err) reject(err);
             con1.query(query, (err, result) => {
-            con1.query(query, function (err, result) {
                 // try  { con1.end(); }
                 // catch (e) {
                 //     console.log(e)
