@@ -4,6 +4,7 @@
 ## End points
 
 ### /student
+
 --------------------------------------
 url | verb | payload | payload Example
 --------------------------------------
