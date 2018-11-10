@@ -19,5 +19,14 @@ url | verb(POST/GET) | payload | payload Example
 url | verb | payload | payload Example
 ----|------|---------|----------------
 /read | POST | |
+/create | POST | |
+/update | POST | |
+/delete | POST | |
 
 ### /faculty
+url | verb | payload | payload Example
+----|------|---------|----------------
+/facultyread | POST | |
+/faculty-create | POST | |
+/faculty-update | POST | |
+/faculty-delete | POST | |
