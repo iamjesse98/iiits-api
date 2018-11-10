@@ -1,5 +1,4 @@
 import * as mysql from 'mysql';
-// import { resolve } from 'path';
 
 // const con = mysql.createConnection({
 //     host: "us-cdbr-iron-east-01.cleardb.net",
@@ -17,6 +16,8 @@ import * as mysql from 'mysql';
 //     })
 // }
 
+const query = query => {
+    const con1 = mysql.createConnection({
 const query = (query) => {
     const con1 = mysql.createPool({
         connectionLimit : 10,
@@ -27,6 +28,9 @@ const query = (query) => {
         // connectionLimit: 10
     });
     return new Promise((resolve, reject) => {
+        con1.connect(err => {
+            if (err) reject(err);
+            con1.query(query, (err, result) => {
             con1.query(query, function (err, result) {
                 // try  { con1.end(); }
                 // catch (e) {

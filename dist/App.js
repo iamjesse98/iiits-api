@@ -5,6 +5,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var cors = require("cors");
 var path = require("path");
+
 var App = /** @class */ (function () {
     /**
      * App constructor
@@ -16,6 +17,7 @@ var App = /** @class */ (function () {
         this.app = express();
         this.app.use(bodyParser.json({ parameterLimit: 1000000, limit: '50mb', extended: true }));
         this.app.use(bodyParser.urlencoded({ parameterLimit: 1000000, limit: '50mb', extended: true }));
+        this.app.use(cors());
         this.app.use(express.static(__dirname + "/client"));
         this.app.get("/login/*", function (req, res) {
             res.sendFile(path.join(__dirname + '/client', 'index.html'));
