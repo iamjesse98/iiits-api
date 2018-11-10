@@ -16,8 +16,6 @@ import * as mysql from 'mysql';
 //     })
 // }
 
-const query = query => {
-    const con1 = mysql.createConnection({
 const query = (query) => {
     const con1 = mysql.createPool({
         connectionLimit : 10,
