@@ -37,13 +37,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var db_1 = require("../database/db");
-var courseRead = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+var facultyRead = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
     var query, s, docs, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 query = req.body.query;
-                s = "SELECT * from academic_course WHERE " + query + " ";
+                console.log(query);
+                s = "SELECT * from employee WHERE " + query + " ";
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
@@ -55,14 +56,14 @@ var courseRead = function (req, res) { return __awaiter(_this, void 0, void 0, f
                 return [3 /*break*/, 4];
             case 3:
                 err_1 = _a.sent();
-                res.json({ s: s, err: err_1, msg: '😨 oh no!!!' });
+                res.json(err_1);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }
     });
 }); };
-exports.courseRead = courseRead;
-var courseCreate = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+exports.facultyRead = facultyRead;
+var facultyCreate = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
     var params, joParams, s, docs, err_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -70,7 +71,7 @@ var courseCreate = function (req, res) { return __awaiter(_this, void 0, void 0,
                 params = req.body.params;
                 console.log(params);
                 joParams = JSON.parse(params);
-                s = "INSERT INTO academic_course (" + Object.keys(joParams).join(', ') + ") VALUES (" + Object.values(joParams).join(', ') + ")";
+                s = "INSERT INTO employee (" + Object.keys(joParams).join(', ') + ") VALUES (" + Object.values(joParams).join(', ') + ")";
                 console.log(s);
                 _a.label = 1;
             case 1:
@@ -88,15 +89,15 @@ var courseCreate = function (req, res) { return __awaiter(_this, void 0, void 0,
         }
     });
 }); };
-exports.courseCreate = courseCreate;
-var courseUpdate = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+exports.facultyCreate = facultyCreate;
+var facultyUpdate = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
     var _a, query, params, s, docs, err_3;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _a = req.body, query = _a.query, params = _a.params;
                 console.log(query, params);
-                s = "UPDATE academic_course SET " + params + " WHERE " + query;
+                s = "UPDATE employee SET " + params + " WHERE " + query;
                 _b.label = 1;
             case 1:
                 _b.trys.push([1, 3, , 4]);
@@ -113,11 +114,11 @@ var courseUpdate = function (req, res) { return __awaiter(_this, void 0, void 0,
         }
     });
 }); };
-exports.courseUpdate = courseUpdate;
-var courseDelete = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+exports.facultyUpdate = facultyUpdate;
+var facultyDelete = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
         return [2 /*return*/];
     });
 }); };
-exports.courseDelete = courseDelete;
-//# sourceMappingURL=courseControllers.js.map
+exports.facultyDelete = facultyDelete;
+//# sourceMappingURL=facultyControllers.js.map

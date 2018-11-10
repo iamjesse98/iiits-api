@@ -1,25 +1,25 @@
 import { query as queryDB } from '../database/db';
 
-const courseRead = async (req, res) => {
+const facultyRead = async (req, res) => {
   const { query } = req.body
-  //console.log(query, bla)
-  const s = `SELECT * from academic_course WHERE ${query} `;
+  console.log("Query:",query)
+  const s = `SELECT * from employee ${query && 'WHERE'} ${query}`
   try {
     const docs = await queryDB(s);
     // console.log(docs);
     res.json({ s, docs });
   } catch (err) {
-    res.json({ s, err, msg: '😨 oh no!!!' });
+    res.json(err);
   }
 }
 
-const courseCreate = async (req, res) => {
+const facultyCreate = async (req, res) => {
   const { params } = req.body;
   console.log(params)
   const joParams = JSON.parse(params)
   // console.log(JSON.parse(params)['a'])
   // console.log(JSON.parse(joParams))
-  const s = `INSERT INTO academic_course (${Object.keys(joParams).join(', ')}) VALUES (${Object.values(joParams).join(', ')})`;
+  const s = `INSERT INTO employee (${Object.keys(joParams).join(', ')}) VALUES (${Object.values(joParams).join(', ')})`;
   console.log(s)
   try {
     const docs = await queryDB(s);
@@ -29,10 +29,10 @@ const courseCreate = async (req, res) => {
   }
 }
 
-const courseUpdate = async (req, res) => {
+const facultyUpdate = async (req, res) => {
   const { query, params } = req.body
   console.log(query, params)
-    const s = `UPDATE academic_course SET ${params} WHERE ${query}`;
+    const s = `UPDATE employee SET ${params} WHERE ${query}`;
   try {
     const docs = await queryDB(s);
     res.json(s);
@@ -41,8 +41,8 @@ const courseUpdate = async (req, res) => {
   }
 }
 
-const courseDelete = async (req, res) => {
+const facultyDelete = async (req, res) => {
 
 }
 
-export { courseRead, courseCreate, courseUpdate, courseDelete }
+export { facultyRead, facultyCreate, facultyUpdate, facultyDelete }
