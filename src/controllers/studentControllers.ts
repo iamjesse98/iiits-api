@@ -89,7 +89,7 @@ const setStudentRegStatus = async (req, res) => {
 };
 
 const setStudentCourseSuggest = async (req, res) => {
-  const { student, suggest } = req.body;
+  const { student_id, suggest } = req.body;
   const s = `update student_sem_course_reg set Student_Sem_Course_Reg_Reg_Status=2,Student_Sem_Course_Reg_Student_Suggestion='${suggest}' where Student_Sem_Course_Reg_Student_Id='${student_id}';`;
   try {
     const docs = await queryDB(s);
