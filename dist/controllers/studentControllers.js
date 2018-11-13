@@ -92,7 +92,7 @@ var studentCreate = function (req, res) { return __awaiter(_this, void 0, void 0
         switch (_a.label) {
             case 0:
                 params = req.body.params;
-                joParams = JSON.parse("{" + params.replace(/=/g, ':') + "}");
+                joParams = JSON.parse(params);
                 s = "INSERT INTO student (" + Object.keys(joParams).join(', ') + ") VALUES (" + Object.values(joParams).join(', ') + ")";
                 _a.label = 1;
             case 1:
@@ -100,7 +100,7 @@ var studentCreate = function (req, res) { return __awaiter(_this, void 0, void 0
                 return [4 /*yield*/, db_1.query(s)];
             case 2:
                 docs = _a.sent();
-                res.json(s);
+                res.json({ s: s, docs: docs });
                 return [3 /*break*/, 4];
             case 3:
                 err_3 = _a.sent();
@@ -111,8 +111,139 @@ var studentCreate = function (req, res) { return __awaiter(_this, void 0, void 0
     });
 }); };
 exports.studentCreate = studentCreate;
+// select s.Student_Id,s.Student_First_Name,s.Student_Middle_Name,s.Student_Last_name,Student_Cur_Sem from student as s where s.Student_Id in (select Distinct Student_Sem_Course_Reg_Student_Id from student_sem_course_reg where Student_Sem_Course_Reg_Reg_Status=0)
+var StudentFromCourse = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+    var s, docs, err_4;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                s = "select s.Student_Id,s.Student_First_Name,s.Student_Middle_Name,s.Student_Last_name,Student_Cur_Sem from student as s where s.Student_Id in (select Distinct Student_Sem_Course_Reg_Student_Id from student_sem_course_reg where Student_Sem_Course_Reg_Reg_Status=0)";
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, db_1.query(s)];
+            case 2:
+                docs = _a.sent();
+                res.json(docs);
+                return [3 /*break*/, 4];
+            case 3:
+                err_4 = _a.sent();
+                res.json(err_4);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+exports.StudentFromCourse = StudentFromCourse;
+var deleteStudent = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+    var sId, s, resp, q, d, err_5;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                sId = req.body.sId;
+                s = "select is_deleted from student where Id=" + sId;
+                console.log(s);
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 6, , 7]);
+                return [4 /*yield*/, db_1.query(s)];
+            case 2:
+                resp = _a.sent();
+                console.log(resp[0]['is_deleted'].toString());
+                if (!(resp[0]['is_deleted'].toString() == '1')) return [3 /*break*/, 3];
+                res.json({ message: 'already deleted....' });
+                return [3 /*break*/, 5];
+            case 3:
+                q = "update student set is_deleted=1 where Id=" + sId;
+                return [4 /*yield*/, db_1.query(q)];
+            case 4:
+                d = _a.sent();
+                res.json({ message: "successfully deleted " + sId + "...." });
+                _a.label = 5;
+            case 5: return [3 /*break*/, 7];
+            case 6:
+                err_5 = _a.sent();
+                res.json({ err: err_5 });
+                return [3 /*break*/, 7];
+            case 7: return [2 /*return*/];
+        }
+    });
+}); };
+exports.deleteStudent = deleteStudent;
+var StudentFromAcademicCourseId = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+    var CID, s, docs, err_6;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                CID = req.body.CID;
+                s = "select a.Academic_Prog_Batch_Sem_Course_Credits,ac.Academic_Course_Name from academic_prog_batch_sem_course as a inner join academic_course as ac on a.Academic_Prog_Batch_Sem_Course=ac.Academic_Course_Id where Academic_Course_Id=" + CID + ");";
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, db_1.query(s)];
+            case 2:
+                docs = _a.sent();
+                res.json(docs);
+                return [3 /*break*/, 4];
+            case 3:
+                err_6 = _a.sent();
+                res.json(err_6);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+exports.StudentFromAcademicCourseId = StudentFromAcademicCourseId;
+var setStudentRegStatus = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+    var student_id, s, docs, err_7;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                student_id = req.body.student_id;
+                s = "update student_sem_course_reg set Student_Sem_Course_Reg_Reg_Status=1 where Student_Sem_Course_Reg_Student_Id=" + student_id + ";";
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, db_1.query(s)];
+            case 2:
+                docs = _a.sent();
+                res.json(docs);
+                return [3 /*break*/, 4];
+            case 3:
+                err_7 = _a.sent();
+                res.json(err_7);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+exports.setStudentRegStatus = setStudentRegStatus;
+var setStudentCourseSuggest = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+    var _a, student_id, suggest, s, docs, err_8;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _a = req.body, student_id = _a.student_id, suggest = _a.suggest;
+                s = "update student_sem_course_reg set Student_Sem_Course_Reg_Reg_Status=2,Student_Sem_Course_Reg_Student_Suggestion='" + suggest + "' where Student_Sem_Course_Reg_Student_Id='" + student_id + "';";
+                _b.label = 1;
+            case 1:
+                _b.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, db_1.query(s)];
+            case 2:
+                docs = _b.sent();
+                res.json(docs);
+                return [3 /*break*/, 4];
+            case 3:
+                err_8 = _b.sent();
+                res.json(err_8);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+exports.setStudentCourseSuggest = setStudentCourseSuggest;
 var educationHistory = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var docs, err_4;
+    var docs, err_9;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -123,8 +254,8 @@ var educationHistory = function (req, res) { return __awaiter(_this, void 0, voi
                 res.json({ data: docs });
                 return [3 /*break*/, 3];
             case 2:
-                err_4 = _a.sent();
-                res.json(err_4);
+                err_9 = _a.sent();
+                res.json(err_9);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -132,7 +263,7 @@ var educationHistory = function (req, res) { return __awaiter(_this, void 0, voi
 }); };
 exports.educationHistory = educationHistory;
 var parent = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var docs, err_5;
+    var docs, err_10;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -143,8 +274,8 @@ var parent = function (req, res) { return __awaiter(_this, void 0, void 0, funct
                 res.json(docs);
                 return [3 /*break*/, 3];
             case 2:
-                err_5 = _a.sent();
-                res.json(err_5);
+                err_10 = _a.sent();
+                res.json(err_10);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -152,7 +283,7 @@ var parent = function (req, res) { return __awaiter(_this, void 0, void 0, funct
 }); };
 exports.parent = parent;
 var semCourseReg = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var docs, err_6;
+    var docs, err_11;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -163,8 +294,8 @@ var semCourseReg = function (req, res) { return __awaiter(_this, void 0, void 0,
                 res.json(docs);
                 return [3 /*break*/, 3];
             case 2:
-                err_6 = _a.sent();
-                res.json(err_6);
+                err_11 = _a.sent();
+                res.json(err_11);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

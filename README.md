@@ -14,7 +14,7 @@ url | verb(POST/GET) | payload | payload Example
 /courseid | POST | { CID<Int - course Id> } | { CID: 12 }
 /set_reg_status | POST | { student_id<Int> } | { student_id: 2 }
 /set_course_suggest | POST | { student<Int>, suggest<String> } | { student: 2, suggest: 'Good Course' }
-
+/delete | POST | { sId<Int> }
 ### /course
 url | verb | payload | payload Example
 ----|------|---------|----------------

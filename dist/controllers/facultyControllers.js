@@ -44,7 +44,6 @@ var facultyRead = function (req, res) { return __awaiter(_this, void 0, void 0, 
             case 0:
                 query = req.body.query;
                 console.log("Query:", query);
-                s = '';
                 s = "SELECT * from employee " + (query && 'WHERE') + " " + query;
                 _a.label = 1;
             case 1:

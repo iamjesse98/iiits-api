@@ -18,11 +18,15 @@ import * as mysql from 'mysql';
 
 const query = (query) => {
     const con1 = mysql.createPool({
-        host: "localhost",
-        user: "root",
-        password: "iiits@123",
-        database: "commonapi",
+        // host: "localhost",
+        // user: "root",
+        // password: "iiits@123",
+        // database: "commonapi",
         // connectionLimit: 10
+        host: "us-cdbr-iron-east-01.cleardb.net",
+        user: "b73de7b8cfffd5",
+        password: "ca0b7d3f",
+        database: "heroku_c9028d96deb4c64"
     });
     return new Promise((resolve, reject) => {
             con1.query(query, (err, result) => {

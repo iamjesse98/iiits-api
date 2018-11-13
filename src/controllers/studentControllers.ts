@@ -49,7 +49,7 @@ const studentCreate = async (req, res) => {
   const s = `INSERT INTO student (${Object.keys(joParams).join(', ')}) VALUES (${Object.values(joParams).join(', ')})`;
   try {
     const docs = await queryDB(s);
-    res.json(s);
+    res.json({s, docs});
   } catch (err) {
     res.json(err);
   }
@@ -63,6 +63,25 @@ const StudentFromCourse = async (req, res) => {
     res.json(docs);
   } catch (err) {
     res.json(err);
+  }
+};
+
+const deleteStudent = async (req, res) => {
+  const { sId } = req.body;
+  const s = `select is_deleted from student where Id=${sId}`;
+  console.log(s);
+  try{
+    const resp = await queryDB(s);
+    console.log(resp[0]['is_deleted'].toString())
+    if (resp[0]['is_deleted'].toString() == '1') {
+      res.json({ message: 'already deleted....' });
+    } else {
+      const q = `update student set is_deleted=1 where Id=${sId}`;
+      const d = await queryDB(q);
+      res.json({ message: `successfully deleted ${sId}....` });
+    }
+  } catch(err) {
+    res.json({ err });
   }
 };
 
@@ -132,7 +151,9 @@ export { studentIndex,
   educationHistory,
   parent,
   semCourseReg,
+  deleteStudent,
   StudentFromAcademicCourseId,
   setStudentRegStatus,
+  StudentFromCourse,
   setStudentCourseSuggest
  };
